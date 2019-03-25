@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>自定义指令-实例</title>
+    <style>
+        #div1 input.active, #div2 input.active {
+            background: antiquewhite;
+        }
+
+        #div1 div, #div2 div {
+            width: 200px;
+            height: 200px;
+            border: 1px solid #f00;
+            display: none;
+        }
+
+    </style>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script>
+        var m1 = angular.module("myApp", []);
+        //定义"hello"这个自定义指令
+        m1.directive("myTable", function () {
+            return {
+                restrict: "E",
+                replace: true,
+                scope: {
+                    myId: "@",  //myId:"@myId",同样的时候可以省略@后面的myId
+                    myData: "=",
+                },//隔离作用域
+                controller: ["$scope", function ($scope) {
+                    $scope.name = "miaov";//共享的
+                }],
+                templateUrl: 'temp2.html',
+                link: function (scope, element, attr) {
+                    element.delegate('input', 'click', function () {
+                        $(this).attr('class', 'active').siblings('input').attr('class', '');
+                        $(this).siblings('div').eq($(this).index()).css('display', 'block').siblings('div').css('display', 'none');
+                    })
+                }
+            }
+        });
+        m1.controller("Aaa", ["$scope", function ($scope) {
+            $scope.data1 = [
+                {title: "数学", content: "11111111111111"},
+                {title: "语文", content: "22222222222222"},
+                {title: "英语", content: "33333333333333"},
+            ];
+            $scope.data2 = [
+                {title: "物理", content: "444444444444"},
+                {title: "化学", content: "5555555555555"},
+            ];
+        }]);
+    </script>
+</head>
+<body ng-controller="Aaa">
+<!--选项卡的指令-->
+<my-table my-id="div1" my-data="data1"></my-table>
+<my-table my-id="div2" my-data="data2"></my-table>
+</body>
+</html>

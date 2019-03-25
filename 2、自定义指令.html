@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>自定义指令</title>
+    <script src="js/angular.min.js"></script>
+    <script>
+        var m1 = angular.module("myApp", []);
+        //定义"hello"这个自定义指令
+        m1.directive("hello", function () {
+            return {
+               /* restrict: "E",  //"E"-标签指令*/
+              /*  restrict: "A",  //"A"-属性指令*/
+                /*restrict: "C",//class的方式*/
+                /* restrict: "M",//注释的方式,注释的方式必须写replace:true*/
+                restrict: "AECM",//1、可以组合 2、区分大小写
+                replace:true,
+                template: "<div>hell angular</div>"
+            }
+        });
+        m1.controller("Aaa", ["$scope", function ($scope) {
+
+        }]);
+    </script>
+</head>
+<body>
+<!--标签指令-->
+<hello></hello>
+<!--属性指令-->
+<p hello></p>
+<!--class的方式-->
+<p class="hello"></p>
+<!--注释的方式-->
+<!-- directive:hello -->
+<div ng-controller="Aaa">
+
+</div>
+</body>
+</html>
