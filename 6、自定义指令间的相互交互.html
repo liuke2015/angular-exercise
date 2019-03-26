@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>自定义指令间的相互交互</title>
+    <script src="js/angular.min.js"></script>
+    <script>
+        var m1 = angular.module("myApp", []);
+        //定义"hello"这个自定义指令
+        m1.directive("hello", function () {
+            return {
+                restrict: "E",//1、可以组合 2、区分大小写
+                replace:true,
+                transclude:true,//可以包含其他的自定义指令
+                controller:function($scope){
+                    this.name="miaov";//使用this,其他的自定义指令才能通过reController.name读取到
+                },
+                template: "<div>hell angular<h1 ng-transclude></h1></div>"//其他的自定义指令包含在ng-transclude的标签里
+            }
+        });
+        m1.directive("hi", function () {
+            return {
+                restrict: "E",//1、可以组合 2、区分大小写
+                replace:true,
+                require:"?^hello",//依赖的指令,^代表从父级的指令寻找,?容错处理
+                template: "<span>hi angular</span>",
+                link:function(scope,element,attr,reController){
+                    console.log(reController.name)//hello里的controller定义的name,"miaov"
+                }
+            }
+        });
+        m1.controller("Aaa", ["$scope", function ($scope) {
+
+        }]);
+    </script>
+</head>
+<body>
+<!--标签指令-->
+<hello>
+    <hi></hi>
+</hello>
+</body>
+</html>
