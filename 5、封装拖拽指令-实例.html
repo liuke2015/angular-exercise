@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>封装拖拽指令-实例</title>
+    <style>
+        #div1 {
+            width: 100px;
+            height: 100px;
+            background: #f00;
+            position: absolute;
+        }
+    </style>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script>
+        var m1 = angular.module("myApp", []);
+        m1.directive("myDrag", function () {
+            return {
+                restrict: "A",
+                replace: true,
+                scope: {},
+                link: function (scope, element, attr) {
+                    //angular.equals,比较是否相等，返回boolean类型
+                    attr.myDrag = angular.equals(attr.myDrag, 'true');
+                    element.on("mousedown", function (ev) {
+                        var _this = this;
+                        var xD = 0, yD = 0;
+                        xD = ev.pageX - $(this).offset().left;
+                        yD = ev.pageY - $(this).offset().top;
+                        if (attr.myDrag) {
+                            var $line = $("<div>");
+                            $line.css({
+                                width: $(this).outerWidth(),
+                                height: $(this).outerHeight(),
+                                position: "absolute",
+                                left: $(this).offset().left,
+                                top: $(this).offset().top,
+                                border: "1px dashed gray"
+                            });
+                            $("body").append($line)
+                        }
+
+                        $(document).on("mousemove", function (ev) {
+                            if (attr.myDrag) {
+                                $line.css("left", ev.pageX - xD);
+                                $line.css("top", ev.pageY - yD);
+                            } else {
+                                $(_this).css("left", ev.pageX - xD);
+                                $(_this).css("top", ev.pageY - yD);
+                            }
+                        })
+                        $(document).on("mouseup", function (ev) {
+                            if (attr.myDrag) {
+                                $(_this).css("left", $line.offset().left);
+                                $(_this).css("top", $line.offset().top);
+                                $line.remove();
+                            } else {
+                                $(document).off();
+                            }
+                        })
+                        return false;
+                    })
+                }
+            }
+        });
+        m1.controller("Aaa", ["$scope", function ($scope) {
+
+        }]);
+    </script>
+</head>
+<body ng-controller="Aaa">
+<div id="div1" my-drag="false"></div>
+</body>
+</html>
