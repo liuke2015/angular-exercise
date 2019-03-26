@@ -51,12 +51,11 @@
                             }
                         })
                         $(document).on("mouseup", function (ev) {
+                            $(document).off();
                             if (attr.myDrag) {
                                 $(_this).css("left", $line.offset().left);
                                 $(_this).css("top", $line.offset().top);
                                 $line.remove();
-                            } else {
-                                $(document).off();
                             }
                         })
                         return false;
