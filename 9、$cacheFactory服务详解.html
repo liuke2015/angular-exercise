@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>$cacheFactory服务详解</title>
+    <script src="js/angular.min.js"></script>
+    <script>
+        var m1 = angular.module("myApp", []);
+        m1.controller("Aaa", ["$scope","$cacheFactory", function ($scope,$cacheFactory) {
+            //定义缓存，"myCache"-缓存名字，"capacity"-缓存长度
+           var cache=$cacheFactory("myCache",{capacity:2});
+           cache.put("name","hello");
+           cache.put("age","20");
+           cache.put("job","it");
+
+          /* cache.remove("name");*/
+           console.log(cache.info());
+           console.log(cache.get("name"));
+           console.log(cache.get("age"));
+           console.log(cache.get("job"));
+
+        }])
+
+    </script>
+</head>
+<body>
+<div ng-controller="Aaa">
+</div>
+</body>
+</html>
