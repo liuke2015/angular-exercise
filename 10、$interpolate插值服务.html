@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>$interpolate插值服务详解</title>
+    <script src="js/angular.min.js"></script>
+    <script>
+        var m1 = angular.module("myApp", []);
+        m1.controller("Aaa", ["$scope", "$interpolate", function ($scope, $interpolate) {
+            $scope.areaCon = "";
+            $scope.name = "";
+            $scope.$watch("areaCon", function (newVal) {
+                if (newVal) {
+                    var temp = $interpolate(newVal);
+                    $scope.tempText = temp({"name": $scope.name})
+                }
+            })
+            $scope.$watch("name", function (newVal) {
+                if (newVal) {
+                    var temp = $interpolate($scope.areaCon);
+                    $scope.tempText = temp({"name": newVal})
+                }
+            })
+        }])
+
+    </script>
+</head>
+<body>
+<div ng-controller="Aaa">
+    <input type="text" ng-model="name">
+    <textarea name="" id="" cols="30" rows="10" ng-model="areaCon"></textarea>
+    <p>{{tempText}}</p>
+</div>
+</body>
+</html>
