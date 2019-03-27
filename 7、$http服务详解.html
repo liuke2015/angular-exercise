@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>$http服务详解</title>
+    <script src="js/angular.min.js"></script>
+    <script>
+        var m1 = angular.module("myApp", []);
+        m1.controller("Aaa", ["$scope","$http","$timeout", function ($scope,$http,$timeout) {
+            $scope.data=[];
+            var timer=null;
+            $scope.change=function(name){
+                $timeout.cancel(timer);
+                timer=$timeout(function(){
+                    $http({
+                        method:"JSONP",
+                        url:"https://m.baidu.com/sugrec?prod=wise&wd="+name+"&cb=JSON_CALLBACK",
+                    }).success(function(data){
+                        console.log(data);
+                        $scope.data=data.g;
+                    })
+                },500);
+            };
+        }])
+
+    </script>
+</head>
+<body>
+<div ng-controller="Aaa">
+    <input type="text" ng-model="name" ng-keyup="change(name)">
+    <input type="button" value="搜索" ng-click="change(name)">
+    <ul>
+        <li ng-repeat="d in data">{{d.q}}</li>
+    </ul>
+</div>
+</body>
+</html>
