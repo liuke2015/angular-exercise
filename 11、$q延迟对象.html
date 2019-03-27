@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>$q延迟对象详解</title>
+    <script src="js/angular.min.js"></script>
+    <script>
+        var m1 = angular.module("myApp", []);
+        m1.controller("Aaa", ["$scope", "$q", function ($scope, $q) {
+           var dfq=$q.defer();//创建延迟对象
+           function show(){
+               setTimeout(function(){
+                   /*dfq.resolve();*///成功时触发
+                   dfq.reject();//失败时触发
+               },2000);
+               return dfq.promise;
+           }
+           show().then(function(){
+               alert("成功");
+           },function(){
+               alert("失败");
+           })
+        }])
+
+    </script>
+</head>
+<body>
+<div ng-controller="Aaa">
+
+</div>
+</body>
+</html>
