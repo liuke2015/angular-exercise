@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>供应商的概念</title>
+    <script src="js/angular.min.js"></script>
+    <script>
+        var m1 = angular.module("myApp", []);
+        //config-对服务初始化的相关配置
+        m1.config(["$interpolateProvider","$logProvider",function($interpolateProvider,$logProvider){
+          /*  $interpolateProvider.startSymbol("@@");//改变起始位置符
+            $interpolateProvider.endSymbol("@@");//改变结束位置符*/
+
+           /* $logProvider.debugEnabled(false);//禁止显示*/
+
+        }]);
+        m1.controller("Aaa", ["$scope","$log", function ($scope,$log) {
+           $scope.showText="hello";
+           $log.debug("hello");//$log不起作用呢？？
+           console.log("11111111111111")
+        }])
+
+    </script>
+</head>
+<body>
+<div ng-controller="Aaa">
+   <!-- <p>@@showText@@</p>-->
+</div>
+</body>
+</html>
