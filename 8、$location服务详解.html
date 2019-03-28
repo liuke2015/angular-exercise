@@ -16,10 +16,14 @@
     <script src="js/angular.min.js"></script>
     <script>
         var m1 = angular.module("myApp", []);
+        //跳转服务增加服务设置
+        m1.config(["$anchorScrollProvider",function($anchorScrollProvider){
+            $anchorScrollProvider.disableAutoScrolling();//1、禁止自动跳转，需要添加手动跳转$anchorScroll()
+        }]);
         m1.controller("Aaa", ["$scope","$location","$anchorScroll", function ($scope,$location,$anchorScroll) {
             $scope.change=function(id){
                 $location.hash(id);
-                $anchorScroll();
+                $anchorScroll();//2、添加手动跳转
             }
         }])
 
